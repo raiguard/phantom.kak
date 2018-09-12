@@ -1,8 +1,10 @@
 declare-option -hidden range-specs phantom
+declare-option -hidden str phantom_last_key
 
 set-face global Phantom 'black,green'
 
-define-command -hidden phantom-update %{ evaluate-commands %sh{
+define-command -hidden phantom-update -params .. %{ evaluate-commands %sh{
+  keys=$@
   count() {
     echo $#
   }
@@ -12,6 +14,12 @@ define-command -hidden phantom-update %{ evaluate-commands %sh{
     shift
     selections=$(echo $@ | sed --regexp-extended s/'([0-9]+)[.]([0-9]+),([0-9]+)[.]([0-9]+)'/'\1.\2,\3.\4|Phantom'/g)
     echo set-option window phantom $kak_timestamp $selections
+  fi
+  if test $(count $keys) -gt 0; then
+    if test $kak_opt_phantom_last_key = '<space>' -a $keys = '<space>'; then
+      echo try %[remove-highlighter window/phantom]
+    fi
+    echo set-option window phantom_last_key $keys
   fi
 }}
 
@@ -35,16 +43,12 @@ define-command -hidden phantom-execute-keys -params .. %{ evaluate-commands %sh{
 
 define-command phantom-enable -docstring 'Enable phantom selections' %{
 
-  hook window -group phantom NormalKey .* phantom-update
+  hook window -group phantom NormalKey .* %(phantom-update %val(hook_param))
   hook window -group phantom NormalIdle '' phantom-update
-  hook window -group phantom InsertMove .* phantom-update
+  hook window -group phantom InsertMove .* %(phantom-update %val(hook_param))
 
   hook window -group phantom NormalKey [()] %{
     phantom-execute-keys %val(hook_param)
-  }
-
-  hook window -group phantom NormalKey <esc> %{
-    try %(remove-highlighter window/phantom)
   }
 
 }

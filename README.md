@@ -22,7 +22,7 @@ hook global WinCreate .* %{
 
 - Use <kbd>Space</kbd> to clear the selections, leaving you the see of phantom selections.
 - Use <kbd>(</kbd> or <kbd>)</kbd> to re-activate the selections.
-- Use <kbd>Escape</kbd> to suppress highlighting.
+- Use <kbd>Space</kbd> twice to suppress highlighting.
 
 ## Commands
 
