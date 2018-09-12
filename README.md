@@ -33,9 +33,17 @@ hook global WinCreate .* %{
 
 - `Phantom` `black,green`: Phantom face
 
+## Credits
+
+Similar extension from [occivink].
+
+❯ [occivink]/[kakoune-phantom-selection]
+
 [Kakoune]: http://kakoune.org
 [IRC]: https://webchat.freenode.net?channels=kakoune
 [IRC Badge]: https://img.shields.io/badge/IRC-%23kakoune-blue.svg
 [Usage]: #usage
 [Documentation]: #commands
 [Contributing]: CONTRIBUTING
+[occivink]: https://github.com/occivink
+[kakoune-phantom-selection]: https://github.com/occivink/kakoune-phantom-selection
