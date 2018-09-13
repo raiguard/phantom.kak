@@ -28,6 +28,11 @@ hook global WinCreate .* %{
 
 - `phantom-enable`: Enable phantom selections
 - `phantom-disable`: Disable phantom selections
+- `phantom-toggle`: Toggle phantom selections
+
+## Options
+
+- `phantom_enabled` `bool`: Whether Phantom is active (Read-only)
 
 ## Faces
 

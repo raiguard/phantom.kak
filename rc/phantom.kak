@@ -1,3 +1,5 @@
+declare-option -docstring 'Whether Phantom is active' bool phantom_enabled no
+
 declare-option -hidden range-specs phantom
 declare-option -hidden str phantom_last_key
 
@@ -51,9 +53,20 @@ define-command phantom-enable -docstring 'Enable phantom selections' %{
     phantom-execute-keys %val(hook_param)
   }
 
+  set-option window phantom_enabled yes
+
 }
 
 define-command phantom-disable -docstring 'Disable phantom selections' %{
   remove-highlighter window/phantom
   remove-hooks window phantom
+  set-option window phantom_enabled no
 }
+
+define-command phantom-toggle -docstring 'Toggle phantom selections' %{ evaluate-commands %sh{
+  if test $kak_opt_phantom_enabled = true; then
+    echo phantom-disable
+  else
+    echo phantom-enable
+  fi
+}}
