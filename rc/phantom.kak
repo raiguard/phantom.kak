@@ -16,10 +16,10 @@ define-command -hidden phantom-update -params .. %{ evaluate-commands %sh{
     echo set-option window phantom $kak_timestamp $selections
   fi
   if test $(count $keys) -gt 0; then
-    if test $kak_opt_phantom_last_key = '<space>' -a $keys = '<space>'; then
+    if test "$kak_opt_phantom_last_key" = '<space>' -a "$keys" = '<space>'; then
       echo try %[remove-highlighter window/phantom]
     fi
-    echo set-option window phantom_last_key $keys
+    echo set-option window phantom_last_key %arg[@]
   fi
 }}
 
