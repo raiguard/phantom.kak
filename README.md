@@ -8,8 +8,10 @@
 
 ## Installation
 
-``` sh
-ln --symbolic $PWD/rc $XDG_CONFIG_HOME/kak/autoload/phantom
+### [Pathogen]
+
+``` kak
+pathogen-infect /home/user/repositories/github.com/alexherbo2/phantom.kak
 ```
 
 ## Usage
@@ -50,5 +52,6 @@ Similar extension from [occivink].
 [Usage]: #usage
 [Documentation]: #commands
 [Contributing]: CONTRIBUTING
+[Pathogen]: https://github.com/alexherbo2/pathogen.kak
 [occivink]: https://github.com/occivink
 [kakoune-phantom-selection]: https://github.com/occivink/kakoune-phantom-selection
