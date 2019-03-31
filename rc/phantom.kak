@@ -24,7 +24,7 @@ define-command -hidden phantom-update -params .. %{ evaluate-commands %sh{
   fi
   if test $(count $keys) -gt 0; then
     if test "$kak_opt_phantom_last_key" = '<space>' -a "$keys" = '<space>'; then
-      echo try %[remove-highlighter window/phantom]
+      echo set-option window phantom
     fi
     echo set-option window phantom_last_key %arg[@]
   fi
