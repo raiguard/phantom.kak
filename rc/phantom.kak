@@ -13,7 +13,6 @@ define-command -hidden phantom-update -params .. %{ evaluate-commands %sh{
   selection_count=$(count $kak_selections_desc)
   if test $selection_count -gt 1; then
     eval "set -- $kak_selections_desc"
-    shift
     selections=$(echo $@ | sed --regexp-extended s/'([0-9]+)[.]([0-9]+),([0-9]+)[.]([0-9]+)'/'\1.\2,\3.\4|Phantom'/g)
     echo set-option window phantom $kak_timestamp $selections
   fi
