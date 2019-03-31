@@ -12,11 +12,15 @@ define-command -hidden phantom-update -params .. %{ evaluate-commands %sh{
   }
   selection_count=$(count $kak_selections_desc)
   if test $selection_count -gt 1; then
+    echo try %[remove-highlighter window/phantom]
     eval "set -- $kak_selections_desc"
     selections=$(echo $@ | sed --regexp-extended s/'([0-9]+)[.]([0-9]+),([0-9]+)[.]([0-9]+)'/'\1.\2,\3.\4|Phantom'/g)
     echo set-option window phantom $kak_timestamp $selections
-  elif test "$keys" = '<space>'; then
-    echo set-option -add window phantom "$kak_selection_desc|Phantom"
+  else
+    echo try %[add-highlighter window/phantom ranges phantom]
+    if test "$keys" = '<space>'; then
+      echo set-option -add window phantom "$kak_selection_desc|Phantom"
+    fi
   fi
   if test $(count $keys) -gt 0; then
     if test "$kak_opt_phantom_last_key" = '<space>' -a "$keys" = '<space>'; then
@@ -45,8 +49,6 @@ define-command -hidden phantom-execute-keys -params .. %{ evaluate-commands %sh{
 }}
 
 define-command phantom-enable -docstring 'Enable phantom selections' %{
-
-  add-highlighter window/phantom ranges phantom
 
   hook window -group phantom NormalKey .* %(phantom-update %val(hook_param))
   hook window -group phantom NormalIdle '' phantom-update
