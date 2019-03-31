@@ -46,6 +46,8 @@ define-command -hidden phantom-execute-keys -params .. %{ evaluate-commands %sh{
 
 define-command phantom-enable -docstring 'Enable phantom selections' %{
 
+  add-highlighter window/phantom ranges phantom
+
   hook window -group phantom NormalKey .* %(phantom-update %val(hook_param))
   hook window -group phantom NormalIdle '' phantom-update
   hook window -group phantom InsertMove .* %(phantom-update %val(hook_param))
