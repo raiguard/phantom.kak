@@ -15,6 +15,8 @@ define-command -hidden phantom-update -params .. %{ evaluate-commands %sh{
     eval "set -- $kak_selections_desc"
     selections=$(echo $@ | sed --regexp-extended s/'([0-9]+)[.]([0-9]+),([0-9]+)[.]([0-9]+)'/'\1.\2,\3.\4|Phantom'/g)
     echo set-option window phantom $kak_timestamp $selections
+  elif test "$keys" = '<space>'; then
+    echo set-option -add window phantom "$kak_selection_desc|Phantom"
   fi
   if test $(count $keys) -gt 0; then
     if test "$kak_opt_phantom_last_key" = '<space>' -a "$keys" = '<space>'; then
