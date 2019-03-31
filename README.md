@@ -22,6 +22,15 @@ hook global WinCreate .* %{
 }
 ```
 
+Iterate phantom selections in insert mode:
+
+``` kak
+map global insert <a-h> '<esc><space>i'
+map global insert <a-l> '<esc><space>a'
+map global insert <a-j> '<esc><space>)<space>i'
+map global insert <a-k> '<esc><space>(<space>i'
+```
+
 - Use <kbd>Space</kbd> to clear the selections, leaving you the see of phantom selections.
 - Use <kbd>(</kbd> or <kbd>)</kbd> to re-activate the selections.
 - Use <kbd>Space</kbd> twice to suppress highlighting.
