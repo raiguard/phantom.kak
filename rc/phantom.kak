@@ -1,62 +1,75 @@
 declare-option -docstring 'Whether Phantom is active' bool phantom_enabled no
 
-declare-option -hidden range-specs phantom
+declare-option -hidden str-list phantom_selections
+declare-option -hidden range-specs phantom_highlighter
 declare-option -hidden str phantom_last_key
 
 set-face global Phantom 'black,green'
 
 define-command -hidden phantom-update -params .. %{ evaluate-commands %sh{
-  keys=$@
-  count() {
-    echo $#
-  }
-  selection_count=$(count $kak_selections_desc)
-  if test $selection_count -gt 1; then
-    echo try %[remove-highlighter window/phantom]
-    eval "set -- $kak_selections_desc"
-    selections=$(echo $@ | sed --regexp-extended s/'([0-9]+)[.]([0-9]+),([0-9]+)[.]([0-9]+)'/'\1.\2,\3.\4|Phantom'/g)
-    echo set-option window phantom $kak_timestamp $selections
+  key=$1
+  eval "set -- $kak_selections_desc"
+  if test $# = 1; then
+    echo try %[add-highlighter window/phantom ranges phantom_highlighter]
   else
-    echo try %[add-highlighter window/phantom ranges phantom]
-    if test "$keys" = '<space>'; then
-      echo set-option -add window phantom "$kak_selection_desc|Phantom"
-    fi
+    echo try %[remove-highlighter window/phantom]
   fi
-  if test $(count $keys) -gt 0; then
-    if test "$kak_opt_phantom_last_key" = '<space>' -a "$keys" = '<space>'; then
-      echo set-option window phantom
-    fi
-    echo set-option window phantom_last_key %arg[@]
+  if test "$kak_opt_phantom_last_key" = '<space>' -a "$key" = '<space>'; then
+    echo phantom-clear-selections
+  elif test $# = 1 -a "$key" = '<space>'; then
+    echo phantom-add-selections
+  elif test $# = 1 -a "$key" = '('; then
+    echo phantom-select-selections
+  elif test $# = 1 -a "$key" = ')'; then
+    echo phantom-select-selections
+  elif test $# -gt 1; then
+    echo phantom-set-selections
+  fi
+  if test "$key"; then
+    echo set-option window phantom_last_key %arg[1]
   fi
 }}
 
-define-command -hidden phantom-execute-keys -params .. %{ evaluate-commands %sh{
-  keys=$@
-  count() {
-    echo $#
+define-command -hidden phantom-select-selections %{
+  evaluate-commands -save-regs '^' %{
+    set-register ^ %opt(phantom_selections)
+    try %{
+      execute-keys 'z'
+    }
   }
-  echo try %[add-highlighter window/phantom ranges phantom]
-  selection_count=$(count $kak_selections_desc)
-  phantom_selection_count=$(($(count $kak_opt_phantom) - 1))
-  if test $selection_count = 1 -a $phantom_selection_count -gt 0; then
-    eval "set -- $kak_opt_phantom"
-    shift
-    main_selection=$kak_selection_desc
-    selections=$(echo $@ | sed s/'|Phantom'//g)
-    echo select $main_selection $selections
-    echo execute-keys $keys
-  fi
-}}
+}
+
+define-command -hidden phantom-set-selections %{
+  evaluate-commands -draft -save-regs '^' %{
+    execute-keys -save-regs '' 'Z'
+    set-option window phantom_selections %reg(^)
+  }
+  set-option window phantom_highlighter %val(timestamp)
+  evaluate-commands -no-hooks -draft -itersel %{
+    set-option -add window phantom_highlighter "%val(selection_desc)|Phantom"
+  }
+}
+
+define-command -hidden phantom-add-selections %{
+  evaluate-commands -draft -save-regs '^' %{
+    set-register ^ %opt(phantom_selections)
+    try %{
+      execute-keys '<a-z>a'
+    }
+    phantom-set-selections
+  }
+}
+
+define-command -hidden phantom-clear-selections %{
+  unset-option window phantom_selections
+  unset-option window phantom_highlighter
+}
 
 define-command phantom-enable -docstring 'Enable phantom selections' %{
 
   hook window -group phantom NormalKey .* %(phantom-update %val(hook_param))
   hook window -group phantom NormalIdle '' phantom-update
   hook window -group phantom InsertMove .* %(phantom-update %val(hook_param))
-
-  hook window -group phantom NormalKey [()] %{
-    phantom-execute-keys %val(hook_param)
-  }
 
   set-option window phantom_enabled yes
 
