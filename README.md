@@ -25,10 +25,10 @@ hook global WinCreate .* %{
 Iterate phantom selections in insert mode:
 
 ``` kak
-map global insert <a-h> '<esc><space>i'
-map global insert <a-l> '<esc><space>a'
-map global insert <a-j> '<esc><space>))<space>i'
-map global insert <a-k> '<esc><space>((<space>i'
+map global insert <a-i> '<esc><space>i'
+map global insert <a-a> '<esc><space>a'
+map global insert <a-n> '<esc><space>))<space>i'
+map global insert <a-p> '<esc><space>((<space>i'
 ```
 
 - Use <kbd>Space</kbd> to clear the selections, leaving you the see of phantom selections.
