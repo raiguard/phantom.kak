@@ -73,12 +73,22 @@ define-command phantom-enable -docstring 'Enable phantom selections' %{
 
   set-option window phantom_enabled yes
 
+  # Iterate phantom selections in insert mode:
+  map window insert <a-i> '<esc><space>i'
+  map window insert <a-a> '<esc><space>a'
+  map window insert <a-n> '<esc><space>))<space>i'
+  map window insert <a-p> '<esc><space>((<space>i'
+
 }
 
 define-command phantom-disable -docstring 'Disable phantom selections' %{
   remove-highlighter window/phantom
   remove-hooks window phantom
   set-option window phantom_enabled no
+  unmap window insert <a-i>
+  unmap window insert <a-a>
+  unmap window insert <a-n>
+  unmap window insert <a-p>
 }
 
 define-command phantom-toggle -docstring 'Toggle phantom selections' %{ evaluate-commands %sh{

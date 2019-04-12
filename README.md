@@ -22,18 +22,14 @@ hook global WinCreate .* %{
 }
 ```
 
-Iterate phantom selections in insert mode:
-
-``` kak
-map global insert <a-i> '<esc><space>i'
-map global insert <a-a> '<esc><space>a'
-map global insert <a-n> '<esc><space>))<space>i'
-map global insert <a-p> '<esc><space>((<space>i'
-```
-
 - Use <kbd>Space</kbd> to clear the selections, leaving you the see of phantom selections.
 - Use <kbd>(</kbd> or <kbd>)</kbd> to re-activate the selections.
 - Use <kbd>Space</kbd> twice to suppress phantom selections.
+
+In insert mode:
+
+- Use <kbd>Alt</kbd> + <kbd>i</kbd> or <kbd>Alt</kbd> + <kbd>a</kbd> to freeze all selections except the main, and flip the direction.
+- Use <kbd>Alt</kbd> + <kbd>n</kbd> or <kbd>Alt</kbd> + <kbd>p</kbd> to freeze all selections expect the main, and select the next or previous phantom selection.
 
 ## Commands
 
