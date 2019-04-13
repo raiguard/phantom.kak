@@ -60,6 +60,26 @@ define-command -hidden phantom-add-selections %{
   }
 }
 
+define-command -hidden phantom-remove-selections -params .. %{
+  evaluate-commands -draft %{
+    phantom-select-selections
+    evaluate-commands %sh{
+      set -- $(
+        for selection in $kak_selections_desc; do
+          for description do
+            if test "$selection" = "$description"; then
+              continue 2
+            fi
+          done
+          printf '%s\n' "$selection"
+        done
+      )
+      printf 'select %s\n' "$*"
+    }
+    phantom-set-selections
+  }
+}
+
 define-command -hidden phantom-clear-selections %{
   unset-option window phantom_selections
   unset-option window phantom_highlighter
@@ -70,6 +90,11 @@ define-command phantom-enable -docstring 'Enable phantom selections' %{
   hook window -group phantom NormalKey .* %(phantom-update %val(hook_param))
   hook window -group phantom NormalIdle '' phantom-update
   hook window -group phantom InsertMove .* %(phantom-update %val(hook_param))
+
+  hook window -group phantom RuntimeError 'cannot remove the last selection' %{
+    phantom-remove-selections %val(selection_desc)
+    echo -markup '{Information}Removed the main phantom selection'
+  }
 
   set-option window phantom_enabled yes
 
