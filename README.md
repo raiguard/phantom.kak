@@ -55,8 +55,8 @@ In insert mode:
 
 - <kbd>Space</kbd>: Clear selections to only keep the main one, and show phantoms.  Pressing twice forces the suppression of all selections (including the phantom selections).
 - <kbd>Alt</kbd> + <kbd>Space</kbd>: Clear the main selection (including phantoms).
-- <kbd>)</kbd>: Rotate main selection forward.  When not possible (because of a single selection), re-activate the selections (phantom selections become normal selections).
-- <kbd>(</kbd>: Rotate main selection backward.  When not possible (because of a single selection), re-activate the selections (phantom selections become normal selections).
+- <kbd>)</kbd>: Rotate main selection forward and re-hydrate the selections (phantom selections become normal selections).
+- <kbd>(</kbd>: Rotate main selection backward and re-hydrate the selections (phantom selections become normal selections).
 
 ### Insert
 
