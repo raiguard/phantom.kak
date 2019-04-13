@@ -6,6 +6,23 @@
 
 > Seamless integrate phantom selections in the existing command set of [Kakoune].
 
+``` asciidoc
+Phantom: Seamless integrate phantom selections in the existing command set.
+
+Normal:
+– *Space*: Clear selections *and show phantoms* (can be used to create new selections).
+– Double-Space: Force the suppression of all selections (including phantoms).
+– *Alt + Space*: Clear the main selection *including phantoms*.
+– *)*: Rotate main selection forward *and re-hydrate the selections*.
+– *(*: Rotate main selection backward *and re-hydrate the selections*.
+
+Insert:
+– Alt + i: Insert *before* the main selection.
+– Alt + a: Insert *after* the main selection.
+– Alt + n: Iterate *next* selection.
+– Alt + p: Iterate *previous* selection.
+```
+
 ## Installation
 
 ### [Pathogen]
