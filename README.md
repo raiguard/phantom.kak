@@ -4,7 +4,7 @@
 
 ###### [Usage] | [Documentation] | [Contributing]
 
-> Seamless integration of phantom selections for [Kakoune].
+> Seamless integrate phantom selections in the existing command set of [Kakoune].
 
 ## Installation
 
