@@ -41,6 +41,8 @@ define-command -hidden phantom-select-selections %{
 
 define-command -hidden phantom-set-selections %{
   evaluate-commands -draft -save-regs '^' %{
+    # Store selections in forward direction
+    execute-keys '<a-:>'
     execute-keys -save-regs '' 'Z'
     set-option window phantom_selections %reg(^)
   }
@@ -61,10 +63,16 @@ define-command -hidden phantom-add-selections %{
 }
 
 define-command -hidden phantom-remove-selections -params .. %{
-  evaluate-commands -draft %{
+  evaluate-commands -draft -save-regs 'D' %{
+    # Ensure selections are in forward direction
+    select %arg(@)
+    execute-keys '<a-:>'
+    # Save descriptions
+    set-register D %val(selections_desc)
     phantom-select-selections
     evaluate-commands %sh{
       set -- $(
+        eval "set -- $kak_reg_D"
         for selection in $kak_selections_desc; do
           for description do
             if test "$selection" = "$description"; then
