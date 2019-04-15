@@ -3,6 +3,7 @@ declare-option -docstring 'Whether Phantom is active' bool phantom_enabled no
 declare-option -hidden str-list phantom_selections
 declare-option -hidden range-specs phantom_highlighter
 declare-option -hidden str phantom_last_key
+declare-option -hidden bool phantom_mappings
 
 set-face global Phantom 'black,green'
 
@@ -93,7 +94,34 @@ define-command -hidden phantom-clear-selections %{
   unset-option window phantom_highlighter
 }
 
-define-command phantom-enable -docstring 'Enable phantom selections' %{
+define-command -hidden phantom-map %{
+  # Iterate phantom selections in insert mode:
+  map window insert <a-i> '<esc><space>i'
+  map window insert <a-a> '<esc><space>a'
+  map window insert <a-)> '<esc><space>))<space>i'
+  map window insert <a-(> '<esc><space>((<space>i'
+}
+
+define-command -hidden phantom-unmap %{
+  unmap window insert <a-i>
+  unmap window insert <a-a>
+  unmap window insert <a-)>
+  unmap window insert <a-(>
+}
+
+define-command phantom-enable -params .. -docstring 'Enable phantom selections.  Add -with-maps to do mappings.' %{
+
+  # Options
+  evaluate-commands %sh{
+    while test $# -gt 0; do
+      case "$1" in
+        -with-maps)
+          printf 'set-option window phantom_mappings yes\n'
+        ;;
+      esac
+      shift
+    done
+  }
 
   hook window -group phantom NormalKey .* %(phantom-update %val(hook_param))
   hook window -group phantom NormalIdle '' phantom-update
@@ -106,11 +134,12 @@ define-command phantom-enable -docstring 'Enable phantom selections' %{
 
   set-option window phantom_enabled yes
 
-  # Iterate phantom selections in insert mode:
-  map window insert <a-i> '<esc><space>i'
-  map window insert <a-a> '<esc><space>a'
-  map window insert <a-)> '<esc><space>))<space>i'
-  map window insert <a-(> '<esc><space>((<space>i'
+  # Mappings
+  evaluate-commands %sh{
+    if test "$kak_opt_phantom_mappings" = true; then
+      printf 'phantom-map\n'
+    fi
+  }
 
 }
 
@@ -118,10 +147,12 @@ define-command phantom-disable -docstring 'Disable phantom selections' %{
   remove-highlighter window/phantom
   remove-hooks window phantom
   set-option window phantom_enabled no
-  unmap window insert <a-i>
-  unmap window insert <a-a>
-  unmap window insert <a-)>
-  unmap window insert <a-(>
+  # Mappings
+  evaluate-commands %sh{
+    if test "$kak_opt_phantom_mappings" = true; then
+      printf 'phantom-unmap\n'
+    fi
+  }
 }
 
 define-command phantom-toggle -docstring 'Toggle phantom selections' %{ evaluate-commands %sh{

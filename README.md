@@ -35,7 +35,7 @@ pathogen-infect /home/user/repositories/github.com/alexherbo2/phantom.kak
 
 ``` kak
 hook global WinCreate .* %{
-  phantom-enable
+  phantom-enable -with-maps
 }
 ```
 
@@ -67,7 +67,7 @@ In insert mode:
 
 ## Commands
 
-- `phantom-enable`: Enable phantom selections
+- `phantom-enable [-with-maps]`: Enable phantom selections.  Add `-with-maps` to do mappings.
 - `phantom-disable`: Disable phantom selections
 - `phantom-toggle`: Toggle phantom selections
 
