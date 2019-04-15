@@ -19,8 +19,8 @@ Normal:
 Insert:
 – Alt + i: Insert *before* the main selection.
 – Alt + a: Insert *after* the main selection.
-– Alt + n: Iterate *next* selection.
-– Alt + p: Iterate *previous* selection.
+– Alt + ): Iterate *next* selection.
+– Alt + (: Iterate *previous* selection.
 ```
 
 ## Installation
@@ -47,7 +47,7 @@ hook global WinCreate .* %{
 In insert mode:
 
 - Use <kbd>Alt</kbd> + <kbd>i</kbd> or <kbd>Alt</kbd> + <kbd>a</kbd> to freeze all selections except the main, and flip the direction.
-- Use <kbd>Alt</kbd> + <kbd>n</kbd> or <kbd>Alt</kbd> + <kbd>p</kbd> to freeze all selections expect the main, and iterate the next or previous phantom selection.
+- Use <kbd>Alt</kbd> + <kbd>)</kbd> or <kbd>Alt</kbd> + <kbd>(</kbd> to freeze all selections expect the main, and iterate the next or previous phantom selection.
 
 ## Keys
 
@@ -62,8 +62,8 @@ In insert mode:
 
 - <kbd>Alt</kbd> + <kbd>i</kbd>: Freeze all selections except the main, and flip the direction backward.
 - <kbd>Alt</kbd> + <kbd>a</kbd>: Freeze all selections except the main, and flip the direction forward.
-- <kbd>Alt</kbd> + <kbd>n</kbd>: Freeze all selections expect the main, and iterate the next phantom selection.
-- <kbd>Alt</kbd> + <kbd>p</kbd>: Freeze all selections expect the main, and iterate the previous phantom selection.
+- <kbd>Alt</kbd> + <kbd>)</kbd>: Freeze all selections expect the main, and iterate the next phantom selection.
+- <kbd>Alt</kbd> + <kbd>(</kbd>: Freeze all selections expect the main, and iterate the previous phantom selection.
 
 ## Commands
 
