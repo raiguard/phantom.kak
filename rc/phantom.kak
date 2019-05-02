@@ -117,7 +117,7 @@ define-command phantom-enable -params .. -docstring 'Enable phantom selections. 
       case "$1" in
         -with-maps)
           printf 'set-option window phantom_mappings yes\n'
-        ;;
+          ;;
       esac
       shift
     done
