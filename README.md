@@ -86,7 +86,7 @@ Similar extension from [occivink].
 ❯ [occivink]/[kakoune-phantom-selection]
 
 [Kakoune]: https://kakoune.org
-[IRC]: https://webchat.freenode.net?channels=kakoune
+[IRC]: https://webchat.freenode.net/#kakoune
 [IRC Badge]: https://img.shields.io/badge/IRC-%23kakoune-blue.svg
 [Usage]: #usage
 [Documentation]: #keys
