@@ -1,164 +1,92 @@
-declare-option -docstring 'Whether Phantom is active' bool phantom_enabled no
+hook global ModuleLoaded phantom %{
+  phantom-enable
+}
 
-declare-option -hidden str-list phantom_selections
-declare-option -hidden range-specs phantom_highlighter
-declare-option -hidden str phantom_last_key
-declare-option -hidden bool phantom_mappings
+provide-module phantom %{
 
-set-face global Phantom 'black,green'
+  # Options ────────────────────────────────────────────────────────────────────
 
-define-command -hidden phantom-update -params .. %{ evaluate-commands %sh{
-  key=$1
-  eval "set -- $kak_selections_desc"
-  if test $# = 1; then
-    echo try %[add-highlighter window/phantom ranges phantom_highlighter]
-  else
-    echo try %[remove-highlighter window/phantom]
-  fi
-  if test "$kak_opt_phantom_last_key" = '<space>' -a "$key" = '<space>'; then
-    echo phantom-clear-selections
-  elif test $# = 1 -a "$key" = '<space>'; then
-    echo phantom-add-selections
-  elif test $# = 1 -a "$key" = '('; then
-    echo phantom-select-selections
-  elif test $# = 1 -a "$key" = ')'; then
-    echo phantom-select-selections
-  elif test $# -gt 1; then
-    echo phantom-set-selections
-  fi
-  if test "$key"; then
-    echo set-option window phantom_last_key %arg[1]
-  fi
-}}
+  declare-option -hidden range-specs phantom_highlighter
 
-define-command -hidden phantom-select-selections %{
-  evaluate-commands -save-regs '^' %{
-    set-register ^ %opt(phantom_selections)
-    try %{
-      execute-keys 'z'
+  # Faces ──────────────────────────────────────────────────────────────────────
+
+  set-face global Phantom 'black,green'
+
+  # Highlighters ───────────────────────────────────────────────────────────────
+
+  add-highlighter shared/phantom ranges phantom_highlighter
+
+  # Commands ───────────────────────────────────────────────────────────────────
+
+  define-command phantom-enable -docstring 'Enable phantom' %{
+    add-highlighter global/phantom ref phantom
+    # Update highlighter when saving marks
+    hook -group phantom global NormalKey 'Z' phantom-update-highlighter
+    hook -group phantom global NormalKey '<a-Z>' %{
+      hook -always -once window ModeChange '\Qpop:next-key[combine-selections]:normal\E' %{
+        hook -always -once window NormalIdle .* %{
+          phantom-update-highlighter
+        }
+      }
     }
+    # Mappings
+    map global normal Z ': phantom-append<ret>'
+    map global normal z ': phantom-restore; phantom-clear<ret>'
+    # Iterate phantom selections in insert mode.
+    map global insert <a-i> '<esc>: phantom-append<ret><space>i'
+    map global insert <a-a> '<esc>: phantom-append<ret><space>a'
+    map global insert <a-n> '<esc>: phantom-append; phantom-restore<ret>)<space>i'
+    map global insert <a-p> '<esc>: phantom-append; phantom-restore<ret>(<space>i'
   }
-}
 
-define-command -hidden phantom-set-selections %{
-  evaluate-commands -draft -save-regs '^' %{
-    # Store selections in forward direction
-    execute-keys '<a-:>'
-    execute-keys -save-regs '' 'Z'
-    set-option window phantom_selections %reg(^)
+  define-command phantom-disable -docstring 'Disable phantom' %{
+    remove-highlighter global/phantom
+    remove-hooks global phantom
+    unmap global normal Z
+    unmap global normal z
+    unmap global insert <a-i>
+    unmap global insert <a-a>
+    unmap global insert <a-n>
+    unmap global insert <a-p>
   }
-  set-option window phantom_highlighter %val(timestamp)
-  evaluate-commands -no-hooks -draft -itersel %{
-    set-option -add window phantom_highlighter "%val(selection_desc)|Phantom"
-  }
-}
 
-define-command -hidden phantom-add-selections %{
-  evaluate-commands -draft -save-regs '^' %{
-    set-register ^ %opt(phantom_selections)
+  define-command phantom-save -docstring 'Save phantom selections' %{
+    execute-keys -save-regs '' Z
+    phantom-update-highlighter
+  }
+
+  define-command phantom-append -docstring 'Append current selections to phantom selections' %{
     try %{
-      execute-keys '<a-z>a'
+      execute-keys -draft z
+      execute-keys -save-regs '' <a-Z>a
+    } catch %{
+      execute-keys -save-regs '' Z
     }
-    phantom-set-selections
+    phantom-update-highlighter
   }
-}
 
-define-command -hidden phantom-remove-selections -params .. %{
-  evaluate-commands -draft -save-regs 'D' %{
-    # Ensure selections are in forward direction
-    select %arg(@)
-    execute-keys '<a-:>'
-    # Save descriptions
-    set-register D %val(selections_desc)
-    phantom-select-selections
+  define-command phantom-restore -docstring 'Restore phantom selections' %{
+    execute-keys z
+    phantom-update-highlighter
+  }
+
+  define-command phantom-clear -docstring 'Clear phantom selections' %{
+    set-register ^
+    phantom-update-highlighter
+  }
+
+  define-command -hidden phantom-update-highlighter %{
     evaluate-commands %sh{
-      set -- $(
-        eval "set -- $kak_reg_D"
-        for selection in $kak_selections_desc; do
-          for description do
-            if test "$selection" = "$description"; then
-              continue 2
-            fi
-          done
-          printf '%s\n' "$selection"
-        done
-      )
-      printf 'select %s\n' "$*"
-    }
-    phantom-set-selections
-  }
-}
-
-define-command -hidden phantom-clear-selections %{
-  unset-option window phantom_selections
-  unset-option window phantom_highlighter
-}
-
-define-command -hidden phantom-map %{
-  # Iterate phantom selections in insert mode:
-  map window insert <a-i> '<esc><space>i'
-  map window insert <a-a> '<esc><space>a'
-  map window insert <a-)> '<esc><space>))<space>i'
-  map window insert <a-(> '<esc><space>((<space>i'
-}
-
-define-command -hidden phantom-unmap %{
-  unmap window insert <a-i>
-  unmap window insert <a-a>
-  unmap window insert <a-)>
-  unmap window insert <a-(>
-}
-
-define-command phantom-enable -params .. -docstring 'Enable phantom selections.  Add -with-maps to do mappings.' %{
-
-  # Options
-  evaluate-commands %sh{
-    while test $# -gt 0; do
-      case "$1" in
-        -with-maps)
-          printf 'set-option window phantom_mappings yes\n'
-          ;;
-      esac
+      eval "set -- $kak_quoted_reg_caret"
+      metadata=$1
       shift
-    done
-  }
-
-  hook window -group phantom NormalKey .* %(phantom-update %val(hook_param))
-  hook window -group phantom NormalIdle '' phantom-update
-  hook window -group phantom InsertMove .* %(phantom-update %val(hook_param))
-
-  hook window -group phantom RuntimeError 'cannot remove the last selection' %{
-    phantom-remove-selections %val(selection_desc)
-    echo -markup '{Information}Removed the main phantom selection'
-  }
-
-  set-option window phantom_enabled yes
-
-  # Mappings
-  evaluate-commands %sh{
-    if test "$kak_opt_phantom_mappings" = true; then
-      printf 'phantom-map\n'
-    fi
-  }
-
-}
-
-define-command phantom-disable -docstring 'Disable phantom selections' %{
-  remove-highlighter window/phantom
-  remove-hooks window phantom
-  set-option window phantom_enabled no
-  # Mappings
-  evaluate-commands %sh{
-    if test "$kak_opt_phantom_mappings" = true; then
-      printf 'phantom-unmap\n'
-    fi
+      phantom_highlighter=$kak_timestamp
+      for selection_desc do
+        phantom_highlighter="$phantom_highlighter $selection_desc|Phantom"
+      done
+      printf 'set-option window phantom_highlighter %s' "$phantom_highlighter"
+    }
   }
 }
 
-define-command phantom-toggle -docstring 'Toggle phantom selections' %{ evaluate-commands %sh{
-  if test $kak_opt_phantom_enabled = true; then
-    echo phantom-disable
-  else
-    echo phantom-enable
-  fi
-}}
+require-module phantom

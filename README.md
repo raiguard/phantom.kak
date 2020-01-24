@@ -1,96 +1,25 @@
-# Phantom
+# phantom.kak
 
-[![IRC Badge]][IRC]
-
-###### [Usage] | [Documentation] | [Contributing]
-
-> Seamless integrate phantom selections in the existing command set of [Kakoune].
-
-``` asciidoc
-Phantom: Seamless integrate phantom selections in the existing command set.
-
-Normal:
-– *Space*: Clear selections *and show phantoms* (can be used to create new selections).
-– Double-Space: Force the suppression of all selections (including phantoms).
-– *Alt + Space*: Clear the main selection *including phantoms*.
-– *)*: Rotate main selection forward *and re-hydrate the selections*.
-– *(*: Rotate main selection backward *and re-hydrate the selections*.
-
-Insert:
-– Alt + i: Insert *before* the main selection.
-– Alt + a: Insert *after* the main selection.
-– Alt + ): Iterate *next* selection.
-– Alt + (: Iterate *previous* selection.
-```
+Phantom selections for [Kakoune].
 
 ## Installation
 
-### [Pathogen]
-
-``` kak
-pathogen-infect /home/user/repositories/github.com/alexherbo2/phantom.kak
-```
+Add [`phantom.kak`](rc/phantom.kak) to your autoload or source it manually.
 
 ## Usage
 
-``` kak
-hook global WinCreate .* %{
-  phantom-enable -with-maps
-}
-```
+In _normal mode_:
 
-- Use <kbd>Space</kbd> to clear the selections, leaving you the see of phantom selections.
-- Use <kbd>(</kbd> or <kbd>)</kbd> to re-activate the selections.
-- Use <kbd>Alt</kbd> + <kbd>Space</kbd> to clear a phantom selection.
-- Use <kbd>Space</kbd> twice to suppress phantom selections.
+- Press <kbd>Z</kbd> to save selections.
+- Press <kbd>z</kbd> to restore selections.
 
-In insert mode:
+In _insert mode_:
 
-- Use <kbd>Alt</kbd> + <kbd>i</kbd> or <kbd>Alt</kbd> + <kbd>a</kbd> to freeze all selections except the main, and flip the direction.
-- Use <kbd>Alt</kbd> + <kbd>)</kbd> or <kbd>Alt</kbd> + <kbd>(</kbd> to freeze all selections expect the main, and iterate the next or previous phantom selection.
+- Press <kbd>Alt</kbd> + <kbd>i</kbd> to _insert_ the main selection.
+- Press <kbd>Alt</kbd> + <kbd>a</kbd> to _append_ the main selection.
+- Press <kbd>Alt</kbd> + <kbd>n</kbd> to _insert_ the next selection.
+- Press <kbd>Alt</kbd> + <kbd>p</kbd> to _insert_ the previous selection.
 
-## Keys
-
-### Normal
-
-- <kbd>Space</kbd>: Clear selections to only keep the main one, and show phantoms.  Pressing twice forces the suppression of all selections (including the phantom selections).
-- <kbd>Alt</kbd> + <kbd>Space</kbd>: Clear the main selection (including phantoms).
-- <kbd>)</kbd>: Rotate main selection forward and re-hydrate the selections (phantom selections become normal selections).
-- <kbd>(</kbd>: Rotate main selection backward and re-hydrate the selections (phantom selections become normal selections).
-
-### Insert
-
-- <kbd>Alt</kbd> + <kbd>i</kbd>: Freeze all selections except the main, and flip the direction backward.
-- <kbd>Alt</kbd> + <kbd>a</kbd>: Freeze all selections except the main, and flip the direction forward.
-- <kbd>Alt</kbd> + <kbd>)</kbd>: Freeze all selections expect the main, and iterate the next phantom selection.
-- <kbd>Alt</kbd> + <kbd>(</kbd>: Freeze all selections expect the main, and iterate the previous phantom selection.
-
-## Commands
-
-- `phantom-enable [-with-maps]`: Enable phantom selections.  Add `-with-maps` to do mappings.
-- `phantom-disable`: Disable phantom selections
-- `phantom-toggle`: Toggle phantom selections
-
-## Options
-
-- `phantom_enabled` `bool`: Whether Phantom is active (Read-only)
-
-## Faces
-
-- `Phantom` `black,green`: Phantom face
-
-## Credits
-
-Similar extension from [occivink].
-
-❯ [occivink]/[kakoune-phantom-selection]
+You can configure the `Phantom` face to your liking, which defaults to green.
 
 [Kakoune]: https://kakoune.org
-[IRC]: https://webchat.freenode.net/#kakoune
-[IRC Badge]: https://img.shields.io/badge/IRC-%23kakoune-blue.svg
-[Usage]: #usage
-[Documentation]: #keys
-[Contributing]: CONTRIBUTING
-[Pathogen]: https://github.com/alexherbo2/pathogen.kak
-[occivink]: https://github.com/occivink
-[kakoune-phantom-selection]: https://github.com/occivink/kakoune-phantom-selection
