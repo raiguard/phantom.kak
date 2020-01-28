@@ -43,8 +43,8 @@ provide-module phantom %{
       set-option window phantom_previous_key %val{hook_param}
     }
     # Mappings
-    map global normal Z ': phantom-append<ret>'
-    map global normal z ': phantom-restore; phantom-clear<ret>'
+    map global normal F ': phantom-append<ret>'
+    map global normal f ': phantom-restore; phantom-clear<ret>'
     # Iterate phantom selections in insert mode.
     map global insert <a-i> '<esc>: phantom-append<ret><space>i'
     map global insert <a-a> '<esc>: phantom-append<ret><space>a'
