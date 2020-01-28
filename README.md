@@ -10,8 +10,8 @@ Add [`phantom.kak`](rc/phantom.kak) to your autoload or source it manually.
 
 In _normal mode_:
 
-- Press <kbd>F</kbd> to save selections.
-- Press <kbd>f</kbd> to restore selections.
+- Press <kbd>F</kbd> to add selections.
+- Press <kbd>f</kbd> to restore selections and consume register.
 - Press <kbd>Space</kbd> (the keep selection command) twice to clear phantom selections.
 
 In _insert mode_:
