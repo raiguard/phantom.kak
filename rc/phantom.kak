@@ -7,6 +7,7 @@ provide-module phantom %{
   # Options ────────────────────────────────────────────────────────────────────
 
   declare-option -hidden range-specs phantom_highlighter
+  declare-option -hidden str phantom_previous_key
 
   # Faces ──────────────────────────────────────────────────────────────────────
 
@@ -28,6 +29,18 @@ provide-module phantom %{
           phantom-update-highlighter
         }
       }
+    }
+    # Double space to clear phantom selections
+    hook -group phantom global NormalKey '<space>' %{
+      evaluate-commands %sh{
+        if test "$kak_opt_phantom_previous_key" = '<space>'; then
+          printf 'phantom-clear'
+        fi
+      }
+    }
+    # Save previous key
+    hook -group phantom global NormalKey .* %{
+      set-option window phantom_previous_key %val{hook_param}
     }
     # Mappings
     map global normal Z ': phantom-append<ret>'

@@ -12,6 +12,7 @@ In _normal mode_:
 
 - Press <kbd>Z</kbd> to save selections.
 - Press <kbd>z</kbd> to restore selections.
+- Press <kbd>Space</kbd> (the keep selection command) twice to clear phantom selections.
 
 In _insert mode_:
 
