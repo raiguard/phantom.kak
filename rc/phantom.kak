@@ -45,6 +45,7 @@ provide-module phantom %{
     # Mappings
     map global normal F ': phantom-append<ret>'
     map global normal f ': phantom-restore; phantom-clear<ret>'
+    map global normal <a-f> ': phantom-clear<ret>'
     # Iterate phantom selections in insert mode.
     map global insert <a-i> '<esc>: phantom-append<ret><space>i'
     map global insert <a-a> '<esc>: phantom-append<ret><space>a'

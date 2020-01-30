@@ -12,6 +12,7 @@ In _normal mode_:
 
 - Press <kbd>F</kbd> to add selections.
 - Press <kbd>f</kbd> to restore selections and consume register.
+- Press <kbd>Alt</kbd> + <kbd>f</kbd> to clear phantom selections.
 - Press <kbd>Space</kbd> (the keep selection command) twice to clear phantom selections.
 
 In _insert mode_:
