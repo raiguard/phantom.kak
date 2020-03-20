@@ -24,4 +24,11 @@ In _insert mode_:
 
 You can configure the `Phantom` face to your liking, which defaults to green.
 
+## Credits
+
+Initial implementation and original idea from [occivink]/[kakoune-phantom-selection].
+
+[occivink]: https://github.com/occivink
+[kakoune-phantom-selection]: https://github.com/occivink/kakoune-phantom-selection
+
 [Kakoune]: https://kakoune.org
