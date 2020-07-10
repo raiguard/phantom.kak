@@ -11,7 +11,7 @@ provide-module phantom %{
 
   # Faces ──────────────────────────────────────────────────────────────────────
 
-  set-face global Phantom 'black,green+F'
+  set-face global Phantom '+biu'
 
   # Highlighters ───────────────────────────────────────────────────────────────
 

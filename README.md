@@ -22,7 +22,7 @@ In _insert mode_:
 - Press <kbd>Alt</kbd> + <kbd>n</kbd> to _insert_ the next selection.
 - Press <kbd>Alt</kbd> + <kbd>p</kbd> to _insert_ the previous selection.
 
-You can configure the `Phantom` face to your liking, which defaults to green.
+You can configure the `Phantom` face to your liking, which defaults to bold-italic-underline.
 
 ## Credits
 
