@@ -49,8 +49,8 @@ provide-module phantom %{
     # Iterate phantom selections in insert mode.
     map global insert <a-i> '<esc>: phantom-append<ret><space>i'
     map global insert <a-a> '<esc>: phantom-append<ret><space>a'
-    map global insert <a-n> '<esc>: phantom-append; phantom-restore<ret>)<space>i'
-    map global insert <a-p> '<esc>: phantom-append; phantom-restore<ret>(<space>i'
+    map global insert <a-n> '<esc>: phantom-append; phantom-restore<ret>)<space>: phantom-consume-placeholders<ret>i'
+    map global insert <a-p> '<esc>: phantom-append; phantom-restore<ret>(<space>: phantom-consume-placeholders<ret>i'
   }
 
   define-command phantom-disable -docstring 'Disable phantom' %{
@@ -87,6 +87,24 @@ provide-module phantom %{
   define-command phantom-clear -docstring 'Clear phantom selections' %{
     set-register ^
     phantom-update-highlighter
+  }
+
+  # Placeholders:
+  # – (parenthesis-block)
+  # – {braces-block}
+  # – [brackets-block]
+  # – <angle-block>
+  define-command -hidden phantom-consume-placeholders %{
+    try %{
+      evaluate-commands -draft -save-regs '/' %{
+        # Testing: The first and last characters should look like placeholder marks.
+        set-register / '\A[({[<].*[>\]})]\z'
+        execute-keys '<a-k><ret>'
+
+        # Passing: Consume placeholders
+        execute-keys 'd'
+      }
+    }
   }
 
   define-command -hidden phantom-update-highlighter %{
