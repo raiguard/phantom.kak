@@ -56,13 +56,13 @@ provide-module phantom %{
   define-command phantom-disable -docstring 'Disable phantom' %{
     remove-highlighter global/phantom
     remove-hooks global phantom
+    unmap global normal F
+    unmap global normal f
+    unmap global normal <a-f>
     unmap global insert <a-i>
     unmap global insert <a-a>
     unmap global insert <a-n>
     unmap global insert <a-p>
-    unmap global normal F
-    unmap global normal f
-    unmap global normal <a-f>
   }
 
   define-command phantom-save -docstring 'Save phantom selections' %{
