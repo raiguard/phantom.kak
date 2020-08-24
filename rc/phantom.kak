@@ -60,6 +60,9 @@ provide-module phantom %{
     unmap global insert <a-a>
     unmap global insert <a-n>
     unmap global insert <a-p>
+    unmap global normal F
+    unmap global normal f
+    unmap global normal <a-f>
   }
 
   define-command phantom-save -docstring 'Save phantom selections' %{
