@@ -56,8 +56,6 @@ provide-module phantom %{
   define-command phantom-disable -docstring 'Disable phantom' %{
     remove-highlighter global/phantom
     remove-hooks global phantom
-    unmap global normal Z
-    unmap global normal z
     unmap global insert <a-i>
     unmap global insert <a-a>
     unmap global insert <a-n>
