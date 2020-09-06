@@ -6,7 +6,13 @@ Phantom selections for [Kakoune].
 
 Add [`phantom.kak`](rc/phantom.kak) to your autoload or source it manually.
 
+``` kak
+require-module phantom
+```
+
 ## Usage
+
+Enable phantom with `phantom-enable`.
 
 In _normal mode_:
 

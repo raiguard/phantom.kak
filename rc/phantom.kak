@@ -1,7 +1,3 @@
-hook global ModuleLoaded phantom %{
-  phantom-enable
-}
-
 provide-module phantom %{
 
   # Options ────────────────────────────────────────────────────────────────────
@@ -121,5 +117,3 @@ provide-module phantom %{
     }
   }
 }
-
-require-module phantom
