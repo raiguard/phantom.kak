@@ -17,6 +17,7 @@ provide-module phantom %{
 
   define-command phantom-enable -docstring 'Enable phantom' %{
     add-highlighter global/phantom ref phantom
+
     # Update highlighter when saving marks
     hook -group phantom global NormalKey 'Z' phantom-update-highlighter
     hook -group phantom global NormalKey '<a-Z>' %{
@@ -26,6 +27,7 @@ provide-module phantom %{
         }
       }
     }
+
     # Double space to clear phantom selections
     hook -group phantom global NormalKey '<space>' %{
       evaluate-commands %sh{
@@ -34,14 +36,17 @@ provide-module phantom %{
         fi
       }
     }
+
     # Save previous key
     hook -group phantom global NormalKey .* %{
       set-option window phantom_previous_key %val{hook_param}
     }
+
     # Mappings
     map global normal F ': phantom-append<ret>'
     map global normal f ': phantom-restore; phantom-clear<ret>'
     map global normal <a-f> ': phantom-clear<ret>'
+
     # Iterate phantom selections in insert mode.
     map global insert <a-i> '<esc>: phantom-append<ret><space>i'
     map global insert <a-a> '<esc>: phantom-append<ret><space>a'
