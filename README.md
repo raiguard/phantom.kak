@@ -1,6 +1,6 @@
 # phantom.kak
 
-Phantom selections for [Kakoune].
+A [Kakoune] plugin that lets you iterate selections, one by one.
 
 ## Installation
 
