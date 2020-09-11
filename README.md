@@ -2,6 +2,8 @@
 
 A [Kakoune] plugin that lets you iterate selections, one by one.
 
+[Kakoune]: https://kakoune.org
+
 ## Installation
 
 Add [`phantom.kak`](rc/phantom.kak) to your autoload or source it manually.
@@ -36,5 +38,3 @@ Initial implementation and original idea from [occivink]/[kakoune-phantom-select
 
 [occivink]: https://github.com/occivink
 [kakoune-phantom-selection]: https://github.com/occivink/kakoune-phantom-selection
-
-[Kakoune]: https://kakoune.org
