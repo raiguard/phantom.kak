@@ -18,14 +18,14 @@ provide-module phantom %{
   # Add and remove mappings
   define-command phantom-add-mappings -docstring 'Add phantom mappings' %{
     map global normal F ': phantom-append<ret>'
-    map global normal f ': phantom-restore; phantom-clear<ret>'
+    map global normal f ': phantom-restore-and-consume<ret>'
     map global normal <a-f> ': phantom-clear<ret>'
 
     # Iterate phantom selections in insert mode.
-    map global insert <a-i> '<esc>: phantom-append<ret><space>i'
-    map global insert <a-a> '<esc>: phantom-append<ret><space>a'
-    map global insert <a-n> '<esc>: phantom-append; phantom-restore<ret>)<space>: phantom-consume-placeholders<ret>i'
-    map global insert <a-p> '<esc>: phantom-append; phantom-restore<ret>(<space>: phantom-consume-placeholders<ret>i'
+    map global insert <a-i> '<esc>: phantom-iterate-selections<ret>i'
+    map global insert <a-a> '<esc>: phantom-iterate-selections<ret>a'
+    map global insert <a-n> '<esc>: phantom-iterate-next-selection<ret>i'
+    map global insert <a-p> '<esc>: phantom-iterate-previous-selection<ret>i'
   }
 
   define-command phantom-remove-mappings -docstring 'Remove phantom mappings' %{
@@ -39,6 +39,34 @@ provide-module phantom %{
   }
 
   # Commands ───────────────────────────────────────────────────────────────────
+
+  # End user commands ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+
+  define-command phantom-restore-and-consume -docstring 'Restore selections and consume register' %{
+    phantom-restore
+    phantom-clear
+  }
+
+  define-command phantom-iterate-selections -docstring 'Iterate selections, one by one' %{
+    phantom-append
+    execute-keys <space>
+  }
+
+  define-command phantom-iterate-next-selection -docstring 'Iterate next selection' %{
+    phantom-append
+    phantom-restore
+    execute-keys ')<space>'
+    phantom-consume-placeholders
+  }
+
+  define-command phantom-iterate-previous-selection -docstring 'Iterate previous selection' %{
+    phantom-append
+    phantom-restore
+    execute-keys '(<space>'
+    phantom-consume-placeholders
+  }
+
+  # Generics ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
   # Enable and disable phantom
   define-command phantom-enable -docstring 'Enable phantom' %{
