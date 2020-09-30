@@ -14,7 +14,7 @@ require-module phantom
 
 ## Usage
 
-Enable phantom with `phantom-enable`.
+Enable phantom with `phantom-enable` and `phantom-add-mappings`.
 
 In _normal mode_:
 

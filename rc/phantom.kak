@@ -13,8 +13,34 @@ provide-module phantom %{
 
   add-highlighter shared/phantom ranges phantom_highlighter
 
+  # Mappings ───────────────────────────────────────────────────────────────────
+
+  # Add and remove mappings
+  define-command phantom-add-mappings -docstring 'Add phantom mappings' %{
+    map global normal F ': phantom-append<ret>'
+    map global normal f ': phantom-restore; phantom-clear<ret>'
+    map global normal <a-f> ': phantom-clear<ret>'
+
+    # Iterate phantom selections in insert mode.
+    map global insert <a-i> '<esc>: phantom-append<ret><space>i'
+    map global insert <a-a> '<esc>: phantom-append<ret><space>a'
+    map global insert <a-n> '<esc>: phantom-append; phantom-restore<ret>)<space>: phantom-consume-placeholders<ret>i'
+    map global insert <a-p> '<esc>: phantom-append; phantom-restore<ret>(<space>: phantom-consume-placeholders<ret>i'
+  }
+
+  define-command phantom-remove-mappings -docstring 'Remove phantom mappings' %{
+    unmap global normal F
+    unmap global normal f
+    unmap global normal <a-f>
+    unmap global insert <a-i>
+    unmap global insert <a-a>
+    unmap global insert <a-n>
+    unmap global insert <a-p>
+  }
+
   # Commands ───────────────────────────────────────────────────────────────────
 
+  # Enable and disable phantom
   define-command phantom-enable -docstring 'Enable phantom' %{
     add-highlighter global/phantom ref phantom
 
@@ -41,29 +67,11 @@ provide-module phantom %{
     hook -group phantom global NormalKey .* %{
       set-option window phantom_previous_key %val{hook_param}
     }
-
-    # Mappings
-    map global normal F ': phantom-append<ret>'
-    map global normal f ': phantom-restore; phantom-clear<ret>'
-    map global normal <a-f> ': phantom-clear<ret>'
-
-    # Iterate phantom selections in insert mode.
-    map global insert <a-i> '<esc>: phantom-append<ret><space>i'
-    map global insert <a-a> '<esc>: phantom-append<ret><space>a'
-    map global insert <a-n> '<esc>: phantom-append; phantom-restore<ret>)<space>: phantom-consume-placeholders<ret>i'
-    map global insert <a-p> '<esc>: phantom-append; phantom-restore<ret>(<space>: phantom-consume-placeholders<ret>i'
   }
 
   define-command phantom-disable -docstring 'Disable phantom' %{
     remove-highlighter global/phantom
     remove-hooks global phantom
-    unmap global normal F
-    unmap global normal f
-    unmap global normal <a-f>
-    unmap global insert <a-i>
-    unmap global insert <a-a>
-    unmap global insert <a-n>
-    unmap global insert <a-p>
   }
 
   define-command phantom-save -docstring 'Save phantom selections' %{
