@@ -17,9 +17,9 @@ provide-module phantom %{
 
   # Add and remove mappings
   define-command phantom-add-mappings -docstring 'Add phantom mappings' %{
-    map global normal F ': phantom-append<ret>'
-    map global normal f ': phantom-restore-and-consume<ret>'
-    map global normal <a-f> ': phantom-clear<ret>'
+    map global normal Z ': phantom-append<ret>'
+    map global normal z ': phantom-restore-and-consume<ret>'
+    map global normal <a-z> ': phantom-clear<ret>'
 
     # Iterate phantom selections in insert mode.
     map global insert <a-i> '<esc>: phantom-iterate-selections<ret>i'
@@ -29,9 +29,9 @@ provide-module phantom %{
   }
 
   define-command phantom-remove-mappings -docstring 'Remove phantom mappings' %{
-    unmap global normal F
-    unmap global normal f
-    unmap global normal <a-f>
+    unmap global normal Z
+    unmap global normal z
+    unmap global normal <a-z>
     unmap global insert <a-i>
     unmap global insert <a-a>
     unmap global insert <a-n>
