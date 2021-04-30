@@ -32,6 +32,12 @@ In _insert mode_:
 
 You can configure the `Phantom` face to your liking, which defaults to bold-italic-underline.
 
+Example for dimmed background:
+
+``` kak
+set-face global Phantom "default,%opt{dimmed_background}"
+```
+
 ## Credits
 
 Initial implementation and original idea from [occivink]/[kakoune-phantom-selection].
