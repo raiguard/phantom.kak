@@ -147,7 +147,7 @@ provide-module phantom %{
 
   define-command -hidden phantom-update-highlighter %{
     evaluate-commands %sh{
-      eval "set -- $kak_quoted_reg_caret"
+      eval "set -- $kak_quoted_reg_p"
       metadata=$1
       shift
       phantom_highlighter=$kak_timestamp
