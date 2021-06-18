@@ -38,6 +38,23 @@ provide-module phantom %{
     unmap global insert <a-p>
   }
 
+  # Add and remove mappings (alternate version)
+  define-command phantom-add-alternate-mappings -docstring 'Add alternate phantom mappings' %{
+    map global normal ^ ': phantom-append<ret>'
+    map global normal <a-^> ': phantom-restore-and-consume<ret>'
+
+    # Iterate phantom selections in normal mode
+    map global normal <c-n> ': phantom-iterate-next-selection<ret>'
+    map global normal <c-p> ': phantom-iterate-previous-selection<ret>'
+  }
+
+  define-command phantom-remove-alternate-mappings -docstring 'Remove alternate phantom mappings' %{
+    unmap global normal ^
+    unmap global normal <a-^>
+    unmap global normal <c-n>
+    unmap global normal <c-p>
+  }
+
   # Commands ───────────────────────────────────────────────────────────────────
 
   # End user commands ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
