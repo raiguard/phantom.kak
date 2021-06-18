@@ -103,27 +103,27 @@ provide-module phantom %{
   }
 
   define-command phantom-save -docstring 'Save phantom selections' %{
-    execute-keys -save-regs '' Z
+    execute-keys -save-regs '' '"pZ'
     phantom-update-highlighter
   }
 
   define-command phantom-append -docstring 'Append current selections to phantom selections' %{
     try %{
-      execute-keys -draft z
-      execute-keys -save-regs '' <a-Z>a
+      execute-keys -draft '"pz'
+      execute-keys -save-regs '' '"p<a-Z>a'
     } catch %{
-      execute-keys -save-regs '' Z
+      execute-keys -save-regs '' '"pZ'
     }
     phantom-update-highlighter
   }
 
   define-command phantom-restore -docstring 'Restore phantom selections' %{
-    execute-keys z
+    execute-keys '"pz'
     phantom-update-highlighter
   }
 
   define-command phantom-clear -docstring 'Clear phantom selections' %{
-    set-register ^
+    set-register p
     phantom-update-highlighter
   }
 
