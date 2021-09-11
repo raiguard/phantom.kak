@@ -169,3 +169,8 @@ define-command -hidden phantom-update-highlighter %{
         printf 'set-option window phantom_highlighter %s' "$phantom_highlighter"
     }
 }
+
+# To prevent crashes with non-updated kakrcs
+provide-module phantom %{
+    echo -debug "phantom.kak no longer provides a module, recommend removing the `require-module` call"
+}
