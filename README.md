@@ -8,25 +8,27 @@ A [Kakoune] plugin that lets you iterate selections, one by one.
 
 Source the plugin file manually, or use a plugin manager:
 
-### [`cork.kak`](https://github.com/topisani/cork.kak)
+### [cork.kak](https://github.com/topisani/cork.kak)
 
 ```kak
 cork phantom.kak "https://github.com/raiguard/phantom.kak" %{
+    phantom-enable
     phantom-add-mappings
 }
 ```
 
-### [`plug.kak`](https://github.com/andreyorst/plug.kak)
+### [plug.kak](https://github.com/andreyorst/plug.kak)
 
 ```kakounescript
 plug "raiguard/phantom.kak" %{
+    phantom-enable
     phantom-add-mappings
 }
 ```
 
 ## Usage
 
-Enable phanhttps://github.com/topisani/cork.kaktom with `phantom-enable` and `phantom-add-mappings`.
+Enable phantom with `phantom-enable` and `phantom-add-mappings`.
 
 In _normal mode_:
 
