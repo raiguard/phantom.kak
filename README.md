@@ -6,15 +6,27 @@ A [Kakoune] plugin that lets you iterate selections, one by one.
 
 ## Installation
 
-Add [`phantom.kak`](rc/phantom.kak) to your autoload or source it manually.
+Source the plugin file manually, or use a plugin manager:
 
-``` kak
-require-module phantom
+### [`cork.kak`](https://github.com/topisani/cork.kak)
+
+```kak
+cork phantom.kak "https://github.com/raiguard/phantom.kak" %{
+    phantom-add-mappings
+}
+```
+
+### [`plug.kak`](https://github.com/andreyorst/plug.kak)
+
+```kakounescript
+plug "raiguard/phantom.kak" %{
+    phantom-add-mappings
+}
 ```
 
 ## Usage
 
-Enable phantom with `phantom-enable` and `phantom-add-mappings`.
+Enable phanhttps://github.com/topisani/cork.kaktom with `phantom-enable` and `phantom-add-mappings`.
 
 In _normal mode_:
 
@@ -34,7 +46,7 @@ You can configure the `Phantom` face to your liking, which defaults to bold-ital
 
 Example for dimmed background:
 
-``` kak
+```kak
 set-face global Phantom "default,%opt{dimmed_background}"
 ```
 
