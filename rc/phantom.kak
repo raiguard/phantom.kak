@@ -1,3 +1,4 @@
+declare-option -hidden range-specs phantom_highlighter
 declare-option -hidden str phantom_previous_key
 
 # Faces ──────────────────────────────────────────────────────────────────────
