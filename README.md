@@ -4,6 +4,10 @@ A [Kakoune] plugin that lets you iterate selections, one by one.
 
 [Kakoune]: https://kakoune.org
 
+## Status
+
+This plugin is archived in favor of other solutions. I am keeping this here for posterity, but don't expect any updates. Feel free to fork.
+
 ## Installation
 
 Source the plugin file manually, or use a plugin manager:
